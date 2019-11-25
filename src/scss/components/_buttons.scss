@@ -1,0 +1,145 @@
+.button{
+	@include button;
+
+	&.primary{
+		background-color: $primary;
+
+		.no-touch &:hover{
+			background-color: $grey;
+		}
+	}
+
+
+	&.black{
+		background-color: $black;
+
+		.no-touch &:hover{
+			background-color: $grey;
+		}
+	}
+}
+
+
+// WORDPRESS WYSIWYG BUTTON
+.wp-block-button{
+	@include media-breakpoint-down(sm) {
+		display: block;
+		margin: 0 0 calculateRem(20px);
+
+		&:last-child{
+			margin-bottom: 0;
+		}
+	}
+
+	&.btn-portfolio{
+		.wp-block-button__link:before{
+			content: "\f06e";
+		}
+	}
+	
+	&.btn-about{
+		.wp-block-button__link:before{
+			content: "\f2c2";
+		}
+	}
+
+	&.btn-services{
+		.wp-block-button__link:before{
+			content: "\f7d9";
+		}
+	}
+	
+	&.btn-services{
+		.wp-block-button__link:before{
+			content: "\f7d9";
+		}
+	}
+
+	&.btn-contact{
+		.wp-block-button__link:before{
+			content: "\F0A1";
+		}
+	}
+	
+	.wp-block-button__link{
+		@include button;
+
+		@include media-breakpoint-down(sm) {
+            display: block;
+        }
+
+		&:before{
+			display: inline-block;
+			vertical-align: middle;
+			margin-top: calculateRem(-2px);
+			margin-right: calculateRem(10px);
+			font-family: "Font Awesome 5 Free";
+			color: $white;
+		}
+	}
+}
+
+
+.buttons-wrapper{
+    @include mainColumn;
+    padding-bottom: $spacer;
+
+    @include media-breakpoint-down(md) {
+        padding-bottom: $spacerSM;
+    }
+
+    .wp-block-column{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex: 0 0 100%;
+        flex-wrap: wrap;
+
+        &:last-child{
+            display: none;
+        }
+
+        @include media-breakpoint-down(sm) {
+            display: block;
+            margin-bottom: 0;
+        }
+    }
+
+    .wp-block-button{
+        margin: 0 calculateRem(20px);
+
+        @include media-breakpoint-down(sm) {
+            margin: 0 0 calculateRem(20px);
+
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .wp-block-button__link{
+        padding: calculateRem(10px) calculateRem(50px);
+
+        @include media-breakpoint-down(md) {
+            padding: calculateRem(10px) calculateRem(36px);
+        }
+
+        @include media-breakpoint-down(sm) {
+            display: block;
+        }
+
+        &:before{
+            content: "\f0e0";
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 10px;
+            font-family: "Font Awesome 5 Free";
+            color: $white;
+        }
+
+        &:hover{
+            background-color: $primary;
+        }
+    }
+}

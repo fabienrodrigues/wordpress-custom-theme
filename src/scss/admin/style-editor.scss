@@ -1,0 +1,22 @@
+.wp-block {
+    max-width: 1200px;
+
+    .wp-block-button__link{
+        background-color: $grey;
+        display: inline-block;
+        padding: 10px 66px;
+        @include fontBd;
+        text-decoration: none;
+        color: $white;
+        transition: background-color 0.25s ease;
+        
+        .no-touch &:hover{
+            background-color: $primary;
+        }
+    }
+}
+
+
+.block-editor-rich-text__editable a{
+    color: $primary;
+}

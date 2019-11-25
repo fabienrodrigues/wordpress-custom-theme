@@ -1,0 +1,29 @@
+/* --- COLORS --- */
+$white: #fff;
+$black: #000000;
+$grey: #808080;
+$greyLight: #f6f6f6;
+$primary: #49c0b6;
+$error: #be2020;
+$success: #a2cc52;
+
+
+$colors: (
+	'white'		: #ffffff,
+	'black'		: #000000,
+	'grey'		: #808080,
+	'greyLight'	: #f6f6f6,
+	'primary'	: #49c0b6,
+	'error'		: #d21010,
+	'success'	: #90cc3a,
+);
+
+
+@function color($key) {
+	@if map-has-key($colors, $key) {
+		@return map-get($colors, $key);
+	}
+
+	@warn "Unknown `#{$key}` in $colors.";
+	@return null;
+}

@@ -1,0 +1,59 @@
+/*!
+Theme Name: Poil aux dents
+Theme URI: https://poilauxdents.fr
+Author: Bertrand Arnould
+Author URI: https://poilauxdents.fr
+Description: Directeur artistique print et graphiste freelance à Lille
+Version: 0.0.1
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+!*/
+
+// --- VENDORS ---
+    // FONTAWESOME
+    @import '../../node_modules/@fortawesome/fontawesome-free/scss/_variables';
+    $fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts/";
+    @import '../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome';
+    @import '../../node_modules/@fortawesome/fontawesome-free/scss/regular';
+    @import '../../node_modules/@fortawesome/fontawesome-free/scss/solid';
+    @import '../../node_modules/@fortawesome/fontawesome-free/scss/brands';
+
+    // ANIMATE ON SCROLL
+    @import '../../node_modules/aos/dist/aos.css';
+
+    // SLICK CAROUSEL
+    @import '../../node_modules/slick-carousel/slick/slick.css';
+
+
+// --- SITE ---
+    // GLOBAL
+    @import "./components/colors";
+    @import "./components/bootstrap_grid";
+    @import "./components/mixins";
+    @import "./components/resets";
+    @import "./components/variables";
+    @import "./components/texts";
+    @import "./components/utils";
+    @import "./components/base";
+    @import "./components/header";
+    @import "./components/forms";
+    @import "./components/commons";
+    @import "./components/buttons";
+    @import "./components/socials";
+    @import "./components/footer";
+    @import "./components/override_wpcf7";
+    @import "./components/override_facebook";
+    @import "./components/aos";
+
+    // PAGES
+    @import "./pages/home";
+    @import "./pages/about";
+    @import "./pages/contacts";
+    @import "./pages/services";
+    @import "./pages/project";
+    @import "./pages/comments";
+    @import "./pages/taxonomy";
+    @import "./pages/page";
+
+    // ADMIN
+    @import "./admin/style-editor";

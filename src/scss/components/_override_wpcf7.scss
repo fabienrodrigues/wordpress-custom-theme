@@ -1,0 +1,64 @@
+.wpcf7-form{
+    label{
+        display: block;
+        position: relative;
+        margin-bottom: calculateRem(15px);
+        padding-left: calculateRem(10px);
+        @include font;
+        line-height: $spacerSM;
+        color: $black;
+
+        .wpcf7-form-control-wrap{
+            display: block;
+            width: 100%;
+            margin-left: calculateRem(-10px);
+
+            @include media-breakpoint-down(sm) {
+                width: calc(100% + #{calculateRem(10px)});
+            }
+
+            &.your-message{
+                z-index: -1;
+
+                .wpcf7-not-valid-tip{
+                    margin-left: calculateRem(-15px);
+                }
+            }
+        }
+
+        &.textarea{
+            color: $black;
+
+            &.focus{
+                textarea{
+                    margin-left: 0;
+                    width: 100%;
+                }
+            }
+        }
+
+        &.fill:not(.focus){
+            font-size: 0;
+        }
+    }
+
+    input:not([type=submit]){
+        display: block;
+        width: 100%;
+        margin-top: -$spacerSM;
+
+        &:focus{
+            margin-top: 0;
+        }
+    }
+
+    textarea{
+        background: $white;
+        width: 100%;
+        margin-top: -$spacerSM;
+
+        &:focus{
+            margin-top: 0;
+        }
+    }
+}

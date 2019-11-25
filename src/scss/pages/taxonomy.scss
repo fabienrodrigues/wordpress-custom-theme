@@ -1,0 +1,17 @@
+#portfolio-list{
+    h1{
+        flex: 0 0 100%;
+        margin-bottom: $spacer;
+        text-align: center;
+
+        @include media-breakpoint-down(sm) {
+            margin-bottom: $spacerSM;
+        }
+    }
+
+    @include media-breakpoint-up(sm) {
+        &.col-md-1-5{
+             flex: 0 0 20%;
+         }
+    }
+}

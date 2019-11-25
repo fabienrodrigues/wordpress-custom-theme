@@ -1,0 +1,123 @@
+
+.page-template-page-services{
+    .row{
+        margin-bottom: calculateRem(95px);
+    }
+
+    .svg-wrapper{
+        width: 100%;
+
+        @include media-breakpoint-down(sm) {
+            margin-bottom: calculateRem(25px);
+        }
+    }
+
+
+    h2{
+        margin-bottom: calculateRem(25px);
+        font-size: $fontXL;
+        line-height: 1;
+        color: $primary;
+        text-transform: none;
+
+        @include media-breakpoint-down(sm) {
+            font-size: $fontL;
+        }
+    }
+
+    svg{
+        display: block;
+        width: 83%;
+        margin: 0 auto;
+        fill: $primary;
+    }
+
+    .splitter{
+        background: $primary;
+        width: 60px;
+        height: 5px;
+        display: block;
+        margin: 30px 0;
+    }
+
+
+    #keysteps{
+        background: $greyLight;
+        padding: $spacer 0;
+        text-align: center;
+
+        h4{
+            font-size: $fontM;
+            color: $grey;
+        }
+
+        .main-column{
+            margin-top: $spacer;
+
+            .row{
+                margin-bottom: 0;
+            }
+        }
+
+        .step-item{
+            text-align: left;
+            padding: 0 12px;
+
+            @include media-breakpoint-down(sm) {
+                margin-bottom: $spacer;
+            }
+
+            .step-title{
+                font-size: $fontL;
+                text-transform: uppercase;
+            }
+
+            .percent{
+                position: relative;
+                margin-top: 28px;
+                padding-top: 34px;
+
+                &:after{
+                    content:'';
+                    background: #d9d9d9;
+                    width: 100%;
+                    height: 7px;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                }
+
+                .value{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    @include fontMd;
+                }
+
+                span{
+                    background: $primary;
+                    height: 7px;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    z-index: 5;
+                    transition: width 0.1s linear;
+                }
+            }
+
+            .step-content{
+                margin-top: 42px;
+            }
+
+            .button{
+                display: block;
+                margin-top: 45px;
+                text-align: center;
+
+                i{
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+}

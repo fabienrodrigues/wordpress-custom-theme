@@ -1,0 +1,85 @@
+.error_form {
+    font-weight: bold;
+    color:$error;
+}
+
+.success_form {
+    font-weight: bold;
+    color:$success;
+}
+
+label{
+    display: inline-block;
+    position: relative;
+}
+
+button[type=submit],
+input[type=submit]{
+    @include button;
+    border: none;
+    font-size: $fontS;
+    background-color: $primary;
+
+    .no-touch &:hover{
+        background-color: $grey;
+    }
+}
+
+
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select{
+    background-color: transparent;
+    height: $spacerSM;
+    border: 1px solid #cccccc;
+    padding: calculateRem(6px) calculateRem(10px);
+    @include easeInOut(0.2s);
+
+    // SUPPRIME LE FOND JAUNE DE CHROME
+    &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px $white inset;
+        -webkit-text-fill-color: $grey;
+    }
+
+    &.error{
+        border: 1px solid $error!important;
+        color:$error;
+
+        & ~ .message{
+            display: block;
+            color: $error!important;
+        }
+    }
+
+    & ~ .message{
+        display: none;
+    }
+
+    &:focus{
+        border-color: $black;
+    }
+}
+
+textarea{
+    height: calculateRem(178px);
+    padding: calculateRem(6px) calculateRem(10px);
+    resize: none;
+    font-size: $fontS;
+    color: $black;
+}
+
+
+// COULEUR PLACEHOLDER
+    ::-webkit-input-placeholder { color: $black; opacity: 1!important; }
+    :-moz-placeholder { color: $black; opacity: 1;}
+    ::-moz-placeholder {color: $black; opacity: 1;}
+    :-ms-input-placeholder {color: $black;}
+
+    .error::-webkit-input-placeholder { color: $error; opacity: 1!important; }
+    .error:-moz-placeholder { color: $error; opacity: 1;}
+    .error::-moz-placeholder {color: $error; opacity: 1;}
+    .error:-ms-input-placeholder {color: $error;}

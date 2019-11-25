@@ -1,0 +1,98 @@
+// --- TYPOS ---
+// -------------
+	$fontXS	: 0.875rem; //14px
+	$fontS	: 1rem; //16px
+	$fontM	: 1.25rem; //20px
+	$fontL	: calculateRem(22px);
+	$fontXL	: 2.25rem;//36px;
+	$fontXXL: 4.125rem;//66px;
+
+
+	h1{
+		@include h1;
+		margin-bottom: calculateRem(30px);
+
+		@include media-breakpoint-down(sm) {
+			font-size: $fontL;
+		}
+	}
+
+	h2{
+		margin-bottom: calculateRem(30px);
+		@include fontBd;
+		font-size: $fontL;
+		line-height: 1.5;
+		text-transform: uppercase;
+		color: $grey;
+
+		@include media-breakpoint-down(sm) {
+            font-size: $fontM;
+            line-height: 1.2;
+		}
+		
+		a{
+			color: $primary;
+			transition: color 0.25s ease;
+
+			.no-touch &:hover{
+				color: $grey;
+			}
+		}
+	}
+
+	h3{
+		@include fontBd;
+		font-size: $fontM;
+		line-height: $fontXL;
+		color: $grey;
+
+		@include media-breakpoint-down(sm) {
+            font-size: $fontS;
+            line-height: 1.5;
+        }
+	}
+
+	h4{
+		@include fontBd;
+		font-size: $fontS;
+		line-height: $fontS;
+		color: $black;
+	}
+
+	h5{
+		@include fontBd;
+		font-size: $fontXS;
+		line-height: $fontXS;
+		text-transform: uppercase;
+		color: $primary;
+	}
+
+	h6{
+		font-size: $fontXS;
+		line-height: $fontXS;
+		color: $grey;
+	}
+
+	p{
+		a{
+			@include fontMd;
+			color: $black;
+			@include easeOut(0.3s, color);
+
+			.no-touch &:hover{
+				color: $primary;
+			}
+		}
+	}
+
+	a {
+		text-decoration: none;
+	}
+// --- /TYPOS ---
+
+
+// SURLIGNEMENT DES TEXTES
+::-moz-selection{background: $primary; color:$white;}
+::-moz-selection{background: $primary; color:$white;}
+::-webkit-selection{background: $primary; color:$white;}
+::selection{background: $primary; color:$white;}

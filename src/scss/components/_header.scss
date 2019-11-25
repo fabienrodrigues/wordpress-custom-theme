@@ -1,0 +1,303 @@
+/* --- HEADER --- */
+#header{
+	background: $white;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 50;
+	padding: calculateRem(42px) calculateRem(40px);
+	transition: padding 0.25s ease;
+
+	@include media-breakpoint-down(lg) {
+		padding: calculateRem(20px);
+	}
+
+	@include media-breakpoint-down(sm) {
+		display: block;
+	}
+
+	.logo{
+		display: block;
+
+		svg{
+            display: inline-block;
+            vertical-align: middle;
+            width: 240px;
+			height: 68px;
+			transition: height 0.25s ease;
+			
+			@include media-breakpoint-down(sm) {
+				width: 100px;
+				height: auto;
+			}
+        }
+	}
+
+	.header-content{
+		@include media-breakpoint-down(sm) {
+			background: $white;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			top: 64px;
+			left: 0;
+			z-index: 100;
+			padding-top: 20px;
+			transform: translateX(-100%);
+			@include easeInOutCirc(0.3s);
+		}
+
+		.links-list{
+			display: flex;
+
+			@include media-breakpoint-down(sm) {
+				display: block;
+			}
+
+			li{
+				padding: 0 15px;
+
+				@include media-breakpoint-down(sm) {
+					display: flex;
+					justify-content: center;
+					padding: 5px 0;
+				}
+
+				&:first-child{
+					padding-left: 0;
+				}
+				&:last-child{
+					padding-right: 0;
+				}
+
+				a{
+					display: block;
+					position: relative;
+					@include fontBd;
+					text-transform: uppercase;
+					color: $black;
+					transition: color 0.25s ease;
+
+					@include media-breakpoint-down(sm) {
+						font-size: $fontM;
+					}
+
+					&:before{
+						content: '';
+						background: $primary;
+						height: 3px;
+						position: absolute;
+						bottom: -25px;
+						left: 0;
+						right: 100%;
+						transition: all 0.25s ease;
+
+						@include media-breakpoint-down(lg) {
+							height: 2px;
+							bottom: -10px;
+						}
+
+						@include media-breakpoint-down(sm) {
+							height: 2px;
+							bottom: 0;
+						}
+					}
+
+					.no-touch &:hover{
+						color: $primary;
+
+						&:before{
+							right: 0%;
+						}
+					}
+
+					&.current{
+						color: $primary;
+
+						&:before{
+							right: 0%;
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	// OPEN CLOSE MENU MOBILE
+	.navbar-toggle {
+		display: none;
+		position: absolute;
+		top: 8px;
+		right: 0;
+		width: 80px;
+		cursor: pointer;
+		transform: scale(0.3);
+
+		@include media-breakpoint-down(sm) {
+			display: block;
+		}
+
+		span {
+			background: $black;
+			display: block;
+			width: 100%;
+			border-radius: 3px;
+			height: 8px;
+			transition: all .3s;
+			position: relative;
+
+			+ span {
+				margin-top: 14px;
+			}
+
+			&:nth-child(1) {
+				animation: ease .7s top-2 forwards;
+			}
+			&:nth-child(2) {
+				animation: ease .7s scaled-2 forwards;
+			}
+			&:nth-child(3) {
+				animation: ease .7s bottom-2 forwards;
+			}
+		}
+	}
+	  
+	
+	@keyframes top {
+		0% {
+		  top: 0;
+		  transform: rotate(0);
+		}
+		50% {
+		  top: 22px;
+		  transform: rotate(0);
+		}
+		100% {
+		  top: 22px;
+		  transform: rotate(45deg);
+		}
+	}
+	  
+	@keyframes top-2 {
+		0% {
+			top: 22px;
+			transform: rotate(45deg);
+		}
+
+		50% {
+			top: 22px;
+			transform: rotate(0deg);
+		}
+
+		100% {
+			top: 0;
+			transform: rotate(0deg);
+		}
+	}
+
+	@keyframes bottom {
+		0% {
+			bottom: 0;
+			transform: rotate(0);
+		}
+
+		50% {
+			bottom: 22px;
+			transform: rotate(0);
+		}
+
+		100% {
+			bottom: 22px;
+			transform: rotate(135deg);
+		}
+	}
+
+	@keyframes bottom-2 {
+		0% {
+			bottom: 22px;
+			transform: rotate(135deg);
+		}
+
+		50% {
+			bottom: 22px;
+			transform: rotate(0);
+		}
+
+		100% {
+			bottom: 0;
+			transform: rotate(0);
+		}
+	}
+
+	@keyframes scaled {
+		50% {
+			transform: scale(0);
+		}
+
+		100% {
+			transform: scale(0);
+		}
+	}
+
+	@keyframes scaled-2 {
+		0% {
+			transform: scale(0);
+		}
+
+		50% {
+			transform: scale(0);
+		}
+
+		100% {
+			transform: scale(1);
+		}
+	}
+
+
+	&.scrolled{
+		padding-top: calculateRem(26px);
+		padding-bottom: calculateRem(26px);
+
+		@include media-breakpoint-down(lg) {	
+			padding: calculateRem(20px);
+		}
+
+		.logo{
+			svg{
+				height: 48px;
+
+				@include media-breakpoint-down(sm) {
+					width: 100px;
+					height: auto;
+				}
+			}
+		}
+	}
+
+
+	&.open{
+		.header-content{
+			transform: translateX(0%);
+		}
+
+		.navbar-toggle{
+			span:nth-child(1) {
+				animation: ease .7s top forwards;
+			}
+
+			span:nth-child(2) {
+				animation: ease .7s scaled forwards;
+			}
+
+			span:nth-child(3) {
+				animation: ease .7s bottom forwards;
+			}
+		}
+	}
+}
+/* --- /HEADER --- */
