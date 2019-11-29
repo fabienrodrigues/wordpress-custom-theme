@@ -1,10 +1,10 @@
 <?php
 /**
- * Poil aux dents functions and definitions
+ * Custom theme functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package Poil aux dents
+ * @package Custom theme
  * @since 1.0
  */
 
@@ -17,7 +17,7 @@
  * runs before the init hook. The init hook is too late for some features, such
  * as indicating support for post thumbnails.
  */
-function pad_setup() {
+function custom_setup() {
 	/*
 	 * Let WordPress manage the document title.
 	 * By adding theme support, we declare that this theme does not use a
@@ -27,7 +27,7 @@ function pad_setup() {
 	add_theme_support( 'title-tag' );  
     
 }
-add_action( 'after_setup_theme', 'pad_setup' );
+add_action( 'after_setup_theme', 'custom_setup' );
 
 
 
@@ -49,7 +49,7 @@ add_action( 'after_setup_theme', 'admin_custom_styles' );
 /**
  * Register custom fonts.
  */
-function pad_fonts_url() {
+function custom_fonts_url() {
 	$fonts_url = '';
 	$font_families = array();
 	$subsets   = 'latin,latin-ext';
@@ -59,7 +59,7 @@ function pad_fonts_url() {
 	 * supported by the font, translate this to 'off'. Do not translate
 	 * into your own language.
 	 */	
-	if ( 'off' !== _x( 'on', 'Poppins font: on or off', 'pad' ) ) {
+	if ( 'off' !== _x( 'on', 'Poppins font: on or off', 'custom' ) ) {
 		$font_families[] = 'Poppins:400,500,700';
 	}
 	
@@ -74,17 +74,17 @@ function pad_fonts_url() {
 }
 
 
-function pad_scripts() {
+function custom_scripts() {
 	// Add custom fonts, used in the main stylesheet.
-	wp_enqueue_style( 'pad-fonts', pad_fonts_url(), array(), null );
+	wp_enqueue_style( 'custom-fonts', custom_fonts_url(), array(), null );
 
 	// Theme stylesheet.
-	wp_enqueue_style( 'pad-style', get_template_directory_uri() . '/dist/main.css' );
+	wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/dist/main.css' );
 
 	// include components scripts
 	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/dist/js/main.min.js', array(), '', true );
 }
-add_action( 'wp_enqueue_scripts', 'pad_scripts' );
+add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 
 
 /**
@@ -92,16 +92,17 @@ add_action( 'wp_enqueue_scripts', 'pad_scripts' );
  */
 function disable_wp_emojicons() {
     // all actions related to emojis
-    remove_action( 'admin_print_styles', 'print_emoji_styles' );
     remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
     remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+    remove_action( 'admin_print_styles', 'print_emoji_styles' );
     remove_action( 'wp_print_styles', 'print_emoji_styles' );
     remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
     remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
     remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
   
     // filter to remove TinyMCE emojis
-    add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+	add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
+	add_filter( 'wp_resource_hints', 'disable_emojis_remove_dns_prefetch', 10, 2 );
 }
 add_action( 'init', 'disable_wp_emojicons' );
 
@@ -111,6 +112,24 @@ function disable_emojicons_tinymce( $plugins ) {
     } else {
         return array();
     }
+}
+
+/**
+ * Remove emoji CDN hostname from DNS prefetching hints.
+ *
+ * @param array $urls URLs to print for resource hints.
+ * @param string $relation_type The relation type the URLs are printed for.
+ * @return array Difference betwen the two arrays.
+ */
+function disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
+	if ( 'dns-prefetch' == $relation_type ) {
+		/** This filter is documented in wp-includes/formatting.php */
+		$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
+
+		$urls = array_diff( $urls, array( $emoji_svg_url ) );
+	}
+   
+   return $urls;
 }
 
 
@@ -143,6 +162,14 @@ remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 remove_action('rest_api_init', 'wp_oembed_register_route');
 remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
 remove_action( 'wp_head', 'feed_links', 2 );
+
+
+// REMOVE JQUERY FROM wp-includes/
+if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
+function my_jquery_enqueue() {
+   wp_deregister_script('jquery');
+   wp_enqueue_script('jquery');
+}
 
 
 // Allow post thumbnail

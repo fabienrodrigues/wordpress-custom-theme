@@ -2,14 +2,6 @@ var utils = require('../components/_utils');
 var header = require('../components/_header');
 
 
-module.exports.bodyPadding = function(){
-    let headerHeight = document.getElementById('header').offsetHeight;
-    let body = document.getElementsByTagName('body')[0];
-
-    body.style.paddingTop = headerHeight + 'px';
-};
-
-
 // --- WINDOW RESIZE ---
 var rtime;
 var timeout = false;
@@ -26,10 +18,6 @@ module.exports.windowResize = function() {
         timeout = true;
         setTimeout(resizeend, delta);
     }
-
-	if(utils.getDeviceKind() !== 'isMobile') {
-		header.closeMenu();
-	}
 };
 
 

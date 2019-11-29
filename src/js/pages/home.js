@@ -1,40 +1,27 @@
-// Mixitup (portfolio grid filter)
-import mixitup from 'mixitup';
+// ICI IMPORT DES VENDORS NECESSAIRES
+// --> <--
 
-// Typed.js (type string effect)
-import Typed from 'typed.js';
+// ICI LE SCRIPT DE LA PAGE
+let homePage = {
+    // execute in document.ready
+    readyFn : function() {
+        console.log('homePage.readyFn');
+    },
 
-import AOS from 'aos';
-
-function homePage() {
-    // MIXITUP
-    var mixer = mixitup('#portfolio-content', {
-        selectors: {
-            target: '.portfolio-item'
-        },
-        callbacks: {
-            onMixEnd: function() {
-                AOS.refresh();
-           }
-        }
-    });
-
-    var filterSelect = document.getElementById('filter-select');
-    filterSelect.addEventListener('change', function() {
-        var selector = filterSelect.value;
-
-        mixer.filter(selector);
-
-        AOS.refresh();
-    });
-
-    // TYPED STRINGS
-    var typed = new Typed('.typed-container', {
-        stringsElement: '.typed-strings',
-        typeSpeed: 40,
-        backDelay: 2000,
-        loop: true
-    });
+    // execute in window.load
+    loadFn : function() {
+        console.log('homePage.loadFn');
+    }
 }
 
-export {homePage};
+
+if(document.getElementsByTagName('body')[0].classList.contains('home')) {
+    document.addEventListener("DOMContentLoaded", function() {
+        homePage.readyFn();
+    });
+
+
+    $(window).on('load', function() {
+        homePage.loadFn();
+    });
+}

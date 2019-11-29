@@ -1,50 +1,40 @@
-function contactsPage() {
-    // ADD AOS ON FIRST WYSIWYG ELEMENTS
-    var els = [];
-    var column = document.getElementById('content');
-    var blocks = column.querySelectorAll('.has-2-columns');
-    
-    els.push(column.querySelector('h1'));
-    els.push(column.querySelector('h3'));
-    els.push(document.getElementById('wpgmza_map'));
-
-    blocks.forEach(function(el) {
-        els.push(el);
-    });
+// ICI IMPORT DES VENDORS NECESSAIRES
+// --> <--
 
 
-    els.forEach(function(el, index) {
-        el.setAttribute('data-aos', 'fade-up');
-        el.setAttribute('data-aos-anchor-placement', 'top-bottom');
-        el.setAttribute('data-aos-delay', index*100);
-    });
+// ICI LE SCRIPT DE LA PAGE
+let contactsPage = {
+    // execute in document.ready
+    readyFn : function() {
+        
+    },
 
+    // execute in window.load
+    loadFn : function() {
+        $('.contacts-block textarea, .contacts-block input[type!="submit"]')
+            .on('focus', function() {
+                $(this).parents('label').addClass('focus');
+            })
+            .on('blur', function() {
+                var $self = $(this);
 
-    $('.contacts-block textarea, .contacts-block input[type!="submit"]')
-        .on('focus', function() {
-            $(this).parents('label').addClass('focus');
-        })
-        .on('blur', function() {
-            var $self = $(this);
+                $self.parents('label').removeClass('focus');
 
-            $self.parents('label').removeClass('focus');
-
-            if($self.val() != '') {
-                $self.parents('label').addClass('fill');
-
-                console.log($(this).val());
-            }
-        });
-    
-
-    var contactsBloc = document.querySelector('.contacts-block');
-    var bloc = contactsBloc.querySelectorAll('.wp-block-column')[0];
-    var socials = document.getElementById('content').querySelector('.socials');
-
-    if(bloc != null) {
-        bloc.appendChild(socials);
+                if($self.val() != '') {
+                    $self.parents('label').addClass('fill');
+                }
+            });
     }
 }
 
 
-export {contactsPage};
+if(document.getElementsByTagName('body')[0].classList.contains('page-template-page-contacts')) {
+    document.addEventListener("DOMContentLoaded", function() {
+        contactsPage.readyFn();
+    });
+
+
+    $(window).on('load', function() {
+        contactsPage.loadFn();
+    });
+}
