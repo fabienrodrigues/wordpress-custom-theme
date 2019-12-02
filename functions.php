@@ -37,7 +37,7 @@ function admin_custom_styles() {
 	 * specifically font, colors, and column width.
 	  */
 	add_theme_support('editor-styles');
-	add_editor_style( array( 'style-editor.css' ) );
+	add_editor_style( array( get_template_directory_uri() . '/dist/style-editor.css' ) );
 
 	// Format large
 	add_theme_support( 'align-wide' );
@@ -289,7 +289,7 @@ function taxonomy_title($title){
 	$title_page = get_field('page-title', $term);
 
 	if($term->taxonomy != null) {
-		$title = $title_page . ' | Poil aux Dents';
+		$title = $title_page . ' | Custom theme';
     }
     
 	return $title;

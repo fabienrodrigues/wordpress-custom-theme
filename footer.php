@@ -6,7 +6,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
- * @package Poil aux dents
+ * @package Custom theme
  * @since 1.0
  */
 
@@ -35,7 +35,7 @@
 
 		<div id="footer-bottom">
 			<div class="main-column">
-				<p>© Copyright 2019 <a href="<?php echo site_url(); ?>" title="Poil aux Dents">Poil aux Dents</a>, tous droits réservés </p>
+				<p>© Copyright 2019 <a href="<?php echo site_url(); ?>" title="Custom theme">Custom theme</a>, tous droits réservés </p>
 				<ul class="links-list">
 					<?php foreach (wp_get_nav_menu_items( 'Liens footer') as $key => $obj): ?>
 					<li>

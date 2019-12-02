@@ -5,10 +5,14 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 
 
 module.exports = {
-    entry: ['./src/js/main.js', './src/scss/style.scss'],
+    entry: {
+       'main.min': './src/js/main.js', 
+       'main': './src/scss/style.scss', 
+       'style-editor': './src/scss/style-editor.scss'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'js/main.min.js',
+        filename: '[name].js',
     },
     module: {
         rules: [
@@ -61,6 +65,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[name].css"
+        }),
     ]
 }
