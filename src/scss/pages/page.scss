@@ -1,15 +1,3 @@
-.page-template-default{
-    #content{
-        h3,
-        p{
-            margin-bottom: calculateRem(30px);
-        }
-    
-        .buttons-wrapper{
-            @include media-breakpoint-down(md) {
-                padding-left: 0;
-                padding-right: 0;
-            }
-        }
-    }
+.page-template-default {
+    #content {}
 }

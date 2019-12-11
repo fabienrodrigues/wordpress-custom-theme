@@ -12,29 +12,31 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 
 // --- SITE ---
-    // GLOBAL
-    @import "./components/colors";
-    @import "./components/bootstrap_grid";
-    @import "./components/mixins";
-    @import "./components/resets";
-    @import "./components/variables";
-    @import "./components/texts";
-    @import "./components/utils";
-    @import "./components/base";
-    @import "./components/header";
-    @import "./components/forms";
-    @import "./components/commons";
-    @import "./components/buttons";
-    @import "./components/footer";
-    @import "./components/override_wpcf7";
+// GLOBAL
+@import "./components/colors";
+@import "./components/bootstrap_grid";
+@import "./components/mixins";
+@import "./components/resets";
+@import "./components/variables";
+@import "./components/texts";
+@import "./components/utils";
+@import "./components/base";
+@import "./components/header";
+@import "./components/forms";
+@import "./components/commons";
+@import "./components/buttons";
+@import "./components/footer";
 
-    // PAGES
-    @import "./pages/home";
-    @import "./pages/about";
-    @import "./pages/contacts";
-    @import "./pages/project";
-    @import "./pages/taxonomy";
-    @import "./pages/page";
+// OVERRIDE WORDPRESS PLUGINS
+@import "./components/override_wpcf7"; //contact form 7
+@import "./components/_override_wpgmza_map"; //WP Google Maps
 
-    // ADMIN
-    //@import "./admin/style-editor";
+// PAGES
+@import "./pages/home";
+@import "./pages/contacts";
+@import "./pages/project";
+@import "./pages/taxonomy";
+@import "./pages/page";
+
+// ADMIN
+//@import "./admin/style-editor";

@@ -74,6 +74,9 @@ function custom_fonts_url() {
 }
 
 
+/**
+ * Register custom scripts and styles.
+ */
 function custom_scripts() {
 	// Add custom fonts, used in the main stylesheet.
 	wp_enqueue_style( 'custom-fonts', custom_fonts_url(), array(), null );
@@ -82,7 +85,7 @@ function custom_scripts() {
 	wp_enqueue_style( 'custom-style', get_template_directory_uri() . '/dist/main.css' );
 
 	// include components scripts
-	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/dist/js/main.min.js', array(), '', true );
+	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/dist/main.min.js', array(), '', true );
 }
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 
@@ -90,177 +93,36 @@ add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 /**
  *  REMOVE EMOJIS
  */
-function disable_wp_emojicons() {
-    // all actions related to emojis
-    remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-    remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-    remove_action( 'admin_print_styles', 'print_emoji_styles' );
-    remove_action( 'wp_print_styles', 'print_emoji_styles' );
-    remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
-    remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-    remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
-  
-    // filter to remove TinyMCE emojis
-	add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
-	add_filter( 'wp_resource_hints', 'disable_emojis_remove_dns_prefetch', 10, 2 );
-}
-add_action( 'init', 'disable_wp_emojicons' );
-
-function disable_emojicons_tinymce( $plugins ) {
-    if ( is_array( $plugins ) ) {
-        return array_diff( $plugins, array( 'wpemoji' ) );
-    } else {
-        return array();
-    }
-}
-
-/**
- * Remove emoji CDN hostname from DNS prefetching hints.
- *
- * @param array $urls URLs to print for resource hints.
- * @param string $relation_type The relation type the URLs are printed for.
- * @return array Difference betwen the two arrays.
- */
-function disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
-	if ( 'dns-prefetch' == $relation_type ) {
-		/** This filter is documented in wp-includes/formatting.php */
-		$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
-
-		$urls = array_diff( $urls, array( $emoji_svg_url ) );
-	}
-   
-   return $urls;
-}
+include('functions/removeEmojis.php');
 
 
-/**
- * REMOVE WORDPRESS VERSION IN FILES NAME
- */
-// remove version from head
-remove_action('wp_head', 'wp_generator');
 
-// remove version from rss
-add_filter('the_generator', '__return_empty_string');
-
-// remove version from scripts and styles
-function shapeSpace_remove_version_scripts_styles($src) {
-	if (strpos($src, 'ver=')) {
-		$src = remove_query_arg('ver', $src);
-	}
-	return $src;
-}
-add_filter('style_loader_src', 'shapeSpace_remove_version_scripts_styles', 9999);
-add_filter('script_loader_src', 'shapeSpace_remove_version_scripts_styles', 9999);
+// REMOVE WORDPRESS VERSION IN FILES NAME
+include('functions/removeWordpressVersionFromFiles.php');
 
 
-// remove unnecessary files from wordpress
-remove_action('wp_head', 'rsd_link');
-remove_action('wp_head', 'wlwmanifest_link');
-remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
-remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
-remove_action( 'wp_head', 'wp_oembed_add_host_js' );
-remove_action('rest_api_init', 'wp_oembed_register_route');
-remove_filter('oembed_dataparse', 'wp_filter_oembed_result', 10);
-remove_action( 'wp_head', 'feed_links', 2 );
+// REMOVE UNNECESSARY FILES FROM WORDPRESS
+include('functions/wpa-clean-header.php');
 
 
 // REMOVE JQUERY FROM wp-includes/
-if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
-function my_jquery_enqueue() {
-   wp_deregister_script('jquery');
-   wp_enqueue_script('jquery');
-}
+include('functions/removeJqueryFromWordpress.php');
 
 
 // Allow post thumbnail
 add_theme_support( 'post-thumbnails' );
 
 
-
-//create a custom taxonomy name it topics for your posts
-function create_project_taxonomy() {
-	$labels = array(
-		'name' => _x( 'Catégories', 'taxonomy general name' ),
-		'singular_name' => _x( 'Catégorie', 'taxonomy singular name' ),
-		'search_items' =>  __( 'Recherche de Catégories' ),
-		'all_items' => __( 'Toutes les Catégories' ),
-		'parent_item' => __( 'Catégorie parente' ),
-		'parent_item_colon' => __( 'Catégorie parente:' ),
-		'edit_item' => __( 'Editer une Catégorie' ), 
-		'update_item' => __( 'Modifier une Catégorie' ),
-		'add_new_item' => __( 'Ajouter une nouvelle Catégorie' ),
-		'new_item_name' => __( 'Renommer une Catégorie' ),
-		'menu_name' => __( 'Catégories' ),
-	);    
- 
-	// Now register the taxonomy 
-	register_taxonomy('portfolio_categories','portfolio', array(
-		'hierarchical' => true,
-		'labels' => $labels,
-		'show_ui' => true,
-		'show_admin_column' => true,
-		'query_var' => true,
-		'rewrite' => array( 'slug' => 'categorie' ),
-	));
-}
-add_action( 'init', 'create_project_taxonomy', 0 );
+//create a custom taxonomy name
+include('functions/createTaxonomy.php');
 
 
 // Our custom post type function
-function posttype_portfolio() {
-	$labels = array(
-		'name' => 'Portfolio',
-		'singular_name' => 'Portfolio',
-		'add_new' => 'Ajouter un Projet',
-		'all_items' => 'Tous les Projets',
-		'add_new_item' => 'Ajouter un Projet',
-		'edit_item' => 'Modifier un Projet',
-		'new_item' => 'Nouveau Projet',
-		'view_item' => 'Voir le Projet',
-		'search_item' => 'Rechercher un Projet',
-		'not_found' => 'Aucun Projet trouvé',
-		'not_found_in_trash' => 'Aucun Projet trouvé dans la corbeille',
-		'parent_item_colon' => 'Parent Item',
-		'featured_image' => 'Miniature portfolio'
-	);
-	$args = array(
-		'labels' => $labels,
-		'public' => true,
-		'has_archive' => true,
-		'publicly_queryable' => true,
-		'query_var' => true,
-		'rewrite' => true,
-		'capability_type' => 'post',
-		'hierarchical' => false,
-		'menu_icon' => 'dashicons-media-document',
-		'supports' => array(
-			'title',
-			'editor',
-			'thumbnail'
-		),
-		'exclude_from_search' => false,
-	);
-	register_post_type('portfolio', $args);
-}
-add_action('init', 'posttype_portfolio');
-
+include('functions/createCustomPostType.php');
 
 
 // GET SINGLE POST BY SLUG TO SHOW IN FOOTER
-function get_post_by_slug($slug){
-    $posts = get_posts(array(
-            'name' => $slug,
-            'post_type' => 'post',
-			'post_status' => 'publish',
-			'numberposts' => 1
-    ));
-    
-    if(! $posts ) {
-        throw new Exception("NoSuchPostBySpecifiedID");
-    }
-
-    return $posts[0];
-}
+include('functions/getPostBySlug.php');
 
 
 function adresses_init() {
@@ -270,28 +132,9 @@ add_action( 'widgets_init', 'adresses_init');
 
 
 
-// ajoute les keywords et le title de taxonomies venant de ACF
-function taxonomy_keywords($text) {
-	$term = get_queried_object();
-	$meta_keywords = get_field('keywords', $term);
-	
-	if($term->taxonomy != null) {
-		$text = $meta_keywords;
-	}
-	
-	return $text;
-}
-add_filter('aioseop_keywords', 'taxonomy_keywords'); 
+// AJOUTE LES META-KEYWORDS VENANT DE ACF POUR UNE TAXONOMY
+include('functions/taxonomyMetaKeywords.php');
 
 
-function taxonomy_title($title){
-	$term = get_queried_object();
-	$title_page = get_field('page-title', $term);
-
-	if($term->taxonomy != null) {
-		$title = $title_page . ' | Custom theme';
-    }
-    
-	return $title;
-}
-add_filter('aioseop_title','taxonomy_title');
+// AJOUTE LE TITRE DE LA TAXONOMIES DANS LE TITLE DU HEAD
+include('functions/taxonomyHeadTitle.php');
