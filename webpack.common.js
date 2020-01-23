@@ -1,22 +1,22 @@
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-const isDevelopment = process.env.NODE_ENV === 'development'
+const isDevelopment = process.env.NODE_ENV === 'development';
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
     entry: {
-       'main.min': './src/js/main.js', 
-       'main': './src/scss/style.scss', 
-       'style-editor': './src/scss/style-editor.scss'
+        'main.min': './src/js/main.js',
+        'main': './src/scss/style.scss',
+        'style-editor': './src/scss/style-editor.scss'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js',
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: "babel-loader"
@@ -27,7 +27,7 @@ module.exports = {
                     isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
-                        options: { 
+                        options: {
                             sourceMap: isDevelopment
                         }
                     },
@@ -40,7 +40,7 @@ module.exports = {
                     },
                     {
                         loader: 'sass-loader',
-                        options: { 
+                        options: {
                             sourceMap: isDevelopment
                         },
                     },
@@ -69,5 +69,9 @@ module.exports = {
             filename: "[name].css",
             chunkFilename: "[name].css"
         }),
+        new CopyWebpackPlugin([{
+            from: 'src/images',
+            to: 'images',
+        }]),
     ]
 }
