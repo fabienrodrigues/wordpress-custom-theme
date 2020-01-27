@@ -34,7 +34,6 @@ function remove_json_api () {
 
     // Remove the REST API lines from the HTML Header
     remove_action( 'wp_head', 'rest_output_link_wp_head', 10 );
-    remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 10 );
 
     // Remove the REST API endpoint.
     remove_action( 'rest_api_init', 'wp_oembed_register_route' );
@@ -50,12 +49,17 @@ function remove_json_api () {
 
     // Remove oEmbed-specific JavaScript from the front-end and back-end.
     remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+    add_filter( 'tiny_mce_plugins', 'disable_embeds_tiny_mce_plugin' );
 
    // Remove all embeds rewrite rules.
-   add_filter( 'rewrite_rules_array', 'disable_embeds_rewrites' );
+   //add_filter( 'rewrite_rules_array', 'disable_embeds_rewrites' );
 
 }
 add_action( 'after_setup_theme', 'remove_json_api' );
+
+function disable_embeds_tiny_mce_plugin($plugins) {
+    return array_diff($plugins, array('wpembed'));
+}
 
 /*
 	Snippet completely disable the REST API and shows {"code":"rest_disabled","message":"The REST API is disabled on this site."} 
