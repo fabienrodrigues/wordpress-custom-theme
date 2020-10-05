@@ -1,22 +1,21 @@
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const isDevelopment = process.env.NODE_ENV === 'development';
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
     entry: {
-        'main.min': './src/js/main.js',
-        'main': './src/scss/style.scss',
-        'style-editor': './src/scss/style-editor.scss'
+        main: ['./src/js/main.js', './src/scss/style.scss', './src/scss/style-editor.scss'],
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
+        filename: 'js/[name].js',
     },
     module: {
-        rules: [{
+        rules: [
+            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: "babel-loader"
@@ -24,10 +23,19 @@ module.exports = {
             {
                 test: /\.s?css$/,
                 use: [
-                    isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    //isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].css',
+                        }
+                    },
+                    {
+                        loader: 'extract-loader'
+                    },
                     {
                         loader: 'css-loader',
-                        options: {
+                        options: { 
                             sourceMap: isDevelopment
                         }
                     },
@@ -40,7 +48,7 @@ module.exports = {
                     },
                     {
                         loader: 'sass-loader',
-                        options: {
+                        options: { 
                             sourceMap: isDevelopment
                         },
                     },
@@ -55,23 +63,16 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)(\?[a-z0-9=.]+)?$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        outputPath: './images/'
-                    }
-                }]
+                use: 'file-loader?name=[name].[ext]&outputPath=./images/'
             }
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: "[name].css",
-            chunkFilename: "[name].css"
-        }),
-        new CopyWebpackPlugin([{
-            from: 'src/images',
-            to: 'images',
-        }]),
+        //new MiniCssExtractPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'src/images', to: 'images' }
+            ]
+        })
     ]
 }
